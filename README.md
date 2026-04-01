@@ -15,7 +15,7 @@ uv sync --all-groups
 pytest -v -s tests/
 ```
 
-## Hardware
+## Hardware Tested
 
 |         System        |    CPU   |    Memory   |        GPU             |  Network  |
 | :-------------------- | :------- | :---------- | :--------------------- | :-------- |
