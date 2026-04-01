@@ -2,7 +2,7 @@ apiVersion: ray.io/v1
 kind: RayCluster
 metadata:
   name: remus-cluster
-  namespace: ray-system # repalce with your own namespace
+  namespace: ray-system # replace with your own namespace
 spec:
   rayVersion: "2.54.0"
   headGroupSpec:
