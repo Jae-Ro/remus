@@ -1,0 +1,54 @@
+apiVersion: ray.io/v1
+kind: RayCluster
+metadata:
+  name: remus-cluster
+  namespace: ray-system # repalce with your own namespace
+spec:
+  rayVersion: "2.54.0"
+  headGroupSpec:
+    rayStartParams:
+      dashboard-host: "0.0.0.0"
+    template:
+      spec:
+        nodeSelector:
+          availability: "always-on" # replace with your own node selector
+        containers:
+        - name: ray-head
+          image: rayproject/ray:2.54.0-py313-cu130
+          resources:
+            limits:
+              cpu: "4"
+              memory: "16Gi"
+  
+  workerGroupSpecs:
+  - groupName: gpu-search-workers
+    replicas: 2
+    minReplicas: 2
+    maxReplicas: 4
+    rayStartParams: 
+      # ~8.0GB shared memory pool
+      object-store-memory: "8000000000"
+    template:
+      spec:
+        nodeSelector:
+          node-role.kubernetes.io/ai-worker: "true" # replace with your own node selector
+        volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: "8Gi"
+        containers:
+        - name: ray-worker
+          image: rayproject/ray:2.54.0-py313-cu130
+          volumeMounts:
+          - mountPath: /dev/shm
+            name: dshm
+          resources:
+            requests:
+              cpu: "4"
+              memory: "16Gi"
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "8"
+              memory: "26Gi"
+              nvidia.com/gpu: "1"
