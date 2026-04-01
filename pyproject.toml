@@ -27,7 +27,7 @@ test = [
 ]
 
 [project.scripts]
-waldo = "waldo:main"
+remus = "remus:main"
 
 [build-system]
 requires = ["uv_build>=0.9.17,<0.10.0"]
@@ -54,7 +54,7 @@ exclude = [
 
 line-length = 100
 indent-width = 4
-target-version = "py314"
+target-version = "py313"
 
 [tool.ruff.lint]
 ignore = ["F401"]
